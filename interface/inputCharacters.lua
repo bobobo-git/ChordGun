@@ -90,3 +90,17 @@ inputCharacters["]"] = 93
 inputCharacters["\\"] = 92
 inputCharacters["-"] = 45
 inputCharacters["="] = 61
+
+inputCharacters["CMDQ"]=17
+inputCharacters["CMDW"]=23.0
+inputCharacters["CMDE"]=5.0
+inputCharacters["CMDR"]=18.0
+inputCharacters["CMDA"]=1.0
+inputCharacters["CMDS"]=19.0
+inputCharacters["CMDD"]=4.0
+inputCharacters["CMDF"]=6.0
+inputCharacters["CMDY"]=25.0  -- for german keyboard
+inputCharacters["CMDZ"]=26.0  -- for english keyboard
+inputCharacters["CMDX"]=24.0
+inputCharacters["CMDC"]=3.0
+inputCharacters["CMDV"]=22.0
