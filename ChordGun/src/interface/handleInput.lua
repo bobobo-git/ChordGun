@@ -318,51 +318,54 @@ function handleInput()
 
 ---
 
-	if inputCharacter == inputCharacters[","] and controlModifierIsActive() then
-		decrementScaleTonicNoteAction()
-	end
+  if inputCharacter == inputCharacters["CMDQ"]  then
+    decrementScaleTonicNoteAction()
+  end
 
-	if inputCharacter == inputCharacters["."] and controlModifierIsActive() then
-		incrementScaleTonicNoteAction()
-	end
+  if inputCharacter == inputCharacters["CMDW"]  then
+    incrementScaleTonicNoteAction() 
+  end
 
-	if inputCharacter == inputCharacters["<"] and controlModifierIsActive() then
-		decrementScaleTypeAction()
-	end
+  if inputCharacter == inputCharacters["CMDE"]  then
+    decrementScaleTypeAction()   
+  end
 
-	if inputCharacter == inputCharacters[">"] and controlModifierIsActive() then
-		incrementScaleTypeAction()
-	end
+  if inputCharacter == inputCharacters["CMDR"]  then
+    incrementScaleTypeAction()  
+  end
 
-	if inputCharacter == inputCharacters[","] and optionModifierIsActive() then
-		halveGridSize()
-	end
+  if inputCharacter == inputCharacters["CMDA"]  then
+    halveGridSize()  
+  end
 
-	if inputCharacter == inputCharacters["."] and optionModifierIsActive() then
-		doubleGridSize()
-	end
+  if inputCharacter == inputCharacters["CMDS"]  then
+    doubleGridSize()  
+  end
 
-	if inputCharacter == inputCharacters["<"] and optionModifierIsActive() then
-		decrementOctaveAction()
-	end
+  if inputCharacter == inputCharacters["CMDD"]  then
+    decrementOctaveAction() 
+  end
 
-	if inputCharacter == inputCharacters[">"] and optionModifierIsActive() then
-		incrementOctaveAction()
-	end
+  if inputCharacter == inputCharacters["CMDF"]  then
+    incrementOctaveAction() 
+  end
 
-	if inputCharacter == inputCharacters[","] and commandModifierIsActive() then
-		decrementChordTypeAction()
-	end
+  --if inputCharacter == inputCharacters["CMDY"]  then
+   --    decrementChordTypeAction()  
+  --end
+  if inputCharacter == inputCharacters["CMDZ"]  then
+    decrementChordTypeAction()  
+  end
 
-	if inputCharacter == inputCharacters["."] and commandModifierIsActive() then
-		incrementChordTypeAction()
-	end
+  if inputCharacter == inputCharacters["CMDX"]  then
+    incrementChordTypeAction() 
+  end
 
-	if inputCharacter == inputCharacters["<"] and commandModifierIsActive() then
-		decrementChordInversionAction()
-	end
+  if inputCharacter == inputCharacters["CMDC"]  then
+      decrementChordInversionAction()  
+	  end
 
-	if inputCharacter == inputCharacters[">"] and commandModifierIsActive() then
-		incrementChordInversionAction()
-	end
+  if inputCharacter == inputCharacters["CMDV"]  then
+      incrementChordInversionAction()  
+  end
 end
