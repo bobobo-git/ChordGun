@@ -82,27 +82,28 @@ About:
 
     m - lower scale note 7
 
-    ctrl+, - decrement scale tonic note
+    cmd q - decrement scale tonic note
 
-    ctrl+. - increment scale tonic note
+    cmd w - increment scale tonic note
 
-    ctrl+shift+, - decrement scale type
+    cmd e - decrement scale type
 
-    ctrl+shift+. - increment scale type
+    cmd r - increment scale type
 
-    option+, - halve grid size
+    cmd a - halve grid size
 
-    option+. - double grid size
+    cmd s - double grid size
 
-    option+shift+, - decrement octave
+    cmd d - decrement octave
 
-    option+shift+. - increment octave
+    cmd f - increment octave
 
-    command+, - decrement chord type
+    cmd y - decrement chord type 
+    cmd z - decrement chord type  (in german version)
 
-    command+. - increment chord type
+    cmd x - increment chord type
 
-    command+shift+, - decrement chord inversion
+    cmd c - decrement chord inversion
 
-    command+shift+. - increment chord inversion
+    cmd v - increment chord inversion
 --]]
