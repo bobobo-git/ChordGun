@@ -92,3 +92,4 @@ inputCharacters["CMDZ"]=26.0  -- for english keyboard
 inputCharacters["CMDX"]=24.0
 inputCharacters["CMDC"]=3.0
 inputCharacters["CMDV"]=22.0
+inputCharacters["CMDG"]=7.0
