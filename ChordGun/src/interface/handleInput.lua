@@ -368,4 +368,8 @@ function handleInput()
   if inputCharacter == inputCharacters["CMDV"]  then
       incrementChordInversionAction()  
   end
+  if inputCharacter == inputCharacters["CMDG"]  then
+      --stepaction to do 
+       moveCursor()	  
+  end
 end
