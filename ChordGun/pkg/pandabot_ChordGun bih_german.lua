@@ -4122,6 +4122,7 @@ inputCharacters["CMDZ"]=26.0  -- for english keyboard
 inputCharacters["CMDX"]=24.0
 inputCharacters["CMDC"]=3.0
 inputCharacters["CMDV"]=22.0
+inputCharacters["CMDG"]=7.0
 
 
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
@@ -4493,6 +4494,10 @@ function handleInput()
 
   if inputCharacter == inputCharacters["CMDV"]  then
       incrementChordInversionAction()  
+  end
+  if inputCharacter == inputCharacters["CMDG"]  then
+      --stepaction to do 
+      moveCursor()	  
   end
 end
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
