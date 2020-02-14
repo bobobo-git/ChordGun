@@ -4068,7 +4068,7 @@ inputCharacters["x"] = 120
 inputCharacters["y"] = 121
 inputCharacters["z"] = 122
 
-
+inputCharacters["spc"] = 32
 inputCharacters["!"] = 33
 inputCharacters["@"] = 64
 inputCharacters["#"] = 35
@@ -4134,7 +4134,9 @@ function handleInput()
   if inputCharacter == inputCharacters["0"] then
     stopAllNotesFromPlaying()
   end
-
+  if inputCharacter == inputCharacters["spc"] then
+    stopAllNotesFromPlaying()
+  end
   --
 
   if inputCharacter == inputCharacters["1"] then
