@@ -4068,7 +4068,7 @@ inputCharacters["x"] = 120
 inputCharacters["y"] = 122 --german
 inputCharacters["z"] = 121 --german
 
-
+inputCharacters["spc"] = 32
 inputCharacters["!"] = 33
 inputCharacters["@"] = 64
 inputCharacters["#"] = 35
@@ -4133,6 +4133,9 @@ function handleInput()
   inputCharacter = gfx.getchar()
 
   if inputCharacter == inputCharacters["0"] then
+    stopAllNotesFromPlaying()
+  end
+  if inputCharacter == inputCharacters["spc"] then
     stopAllNotesFromPlaying()
   end
 
