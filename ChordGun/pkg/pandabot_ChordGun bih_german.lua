@@ -4065,8 +4065,8 @@ inputCharacters["u"] = 117
 inputCharacters["v"] = 118
 inputCharacters["w"] = 119
 inputCharacters["x"] = 120
-inputCharacters["y"] = 121
-inputCharacters["z"] = 122
+inputCharacters["y"] = 122 --german
+inputCharacters["z"] = 121 --german
 
 
 inputCharacters["!"] = 33
@@ -4101,8 +4101,8 @@ inputCharacters["U"] = 85
 inputCharacters["V"] = 86
 inputCharacters["W"] = 87
 inputCharacters["X"] = 88
-inputCharacters["Y"] = 89
-inputCharacters["Z"] = 90
+inputCharacters["Y"] = 90  --german
+inputCharacters["Z"] = 89  --german
 
 inputCharacters[","] = 44
 inputCharacters["."] = 46
