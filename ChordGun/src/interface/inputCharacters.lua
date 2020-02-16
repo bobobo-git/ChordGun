@@ -38,7 +38,7 @@ inputCharacters["x"] = 120
 inputCharacters["y"] = 121
 inputCharacters["z"] = 122
 
-
+inputCharacters["spc"] = 33
 inputCharacters["!"] = 33
 inputCharacters["@"] = 64
 inputCharacters["#"] = 35
