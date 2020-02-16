@@ -11,7 +11,10 @@ function handleInput()
 	if inputCharacter == inputCharacters["0"] then
 		stopAllNotesFromPlaying()
 	end
-
+        if inputCharacter == inputCharacters["spc"] then
+                stopAllNotesFromPlaying()
+        end
+  
 	--
 
 	if inputCharacter == inputCharacters["1"] then
