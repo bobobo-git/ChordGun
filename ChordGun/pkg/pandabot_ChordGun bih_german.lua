@@ -4123,7 +4123,9 @@ inputCharacters["CMDX"]=24.0
 inputCharacters["CMDC"]=3.0
 inputCharacters["CMDV"]=22.0
 inputCharacters["CMDG"]=7.0
-
+inputCharacters["ARLEFT"]=1818584692.0    --right arrow
+inputCharacters["ARRIGHT"]=1919379572.0   --left arrow
+inputCharacters["HELP"]=26161.0           --F1
 
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
@@ -4138,7 +4140,7 @@ function handleInput()
   if inputCharacter == inputCharacters["spc"] then
     stopAllNotesFromPlaying()
   end
-
+  
   --
 
   if inputCharacter == inputCharacters["1"] then
@@ -4493,15 +4495,26 @@ function handleInput()
 
   if inputCharacter == inputCharacters["CMDC"]  then
       decrementChordInversionAction()  
-	  end
+    end
 
   if inputCharacter == inputCharacters["CMDV"]  then
       incrementChordInversionAction()  
   end
+  
   if inputCharacter == inputCharacters["CMDG"]  then
-      --stepaction to do 
-      moveCursor()	  
+      moveCursor()    
   end
+  if inputCharacter == inputCharacters["ARRIGHT"]  then
+      moveCursor()    
+    end
+  if inputCharacter == inputCharacters["ARLEFT"]  then
+      moveEditCursorPosition(-noteLength())
+  end
+  if inputCharacter == inputCharacters["HELP"]  then
+      reaper.ClearConsole()
+      reaper.ShowConsoleMsg("0 - stop all notes from playing\n1 - play scale chord 1\n2 - play scale chord 2\n3 - play scale chord 3\n4 - play scale chord 4\n5 - play scale chord 5\n6 - play scale chord 6\n7 - play scale chord 7\nq - higher scale note 1\nw - higher scale note 2\ne - higher scale note 3\nr - higher scale note 4\nt - higher scale note 5\ny - higher scale note 6\nu - higher scale note 7\na - scale note 1\ns - scale note 2\nd - scale note 3\nf - scale note 4\ng - scale note 5\nh - scale note 6\nj - scale note 7\nz - lower scale note 1\nx - lower scale note 2\nc - lower scale note 3\nv - lower scale note 4\nb - lower scale note 5\nn - lower scale note 6\nm - lower scale note 7\ncmd q - decrement scale tonic note\ncmd w - increment scale tonic note\ncmd e - decrement scale type\ncmd r - increment scale type\ncmd a - halve grid size\ncmd s - double grid size\ncmd d - decrement octave\ncmd f - increment octave\ncmd y - decrement chord type\ncmd z - decrement chord type (in german version)\ncmd x - increment chord type\ncmd c - decrement chord inversion\ncmd v -increment chord inversion\ncmd g - cursor one step right in grid\nright arrow -  cursour one step right\nleft arrow - cursor one step left\nF1 - this help")
+  end
+    
 end
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
