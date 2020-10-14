@@ -369,12 +369,12 @@ end
 
 function mouseIsHoveringOver(element)
 
-  local x = gfx.mouse_x
-  local y = gfx.mouse_y
+	local x = gfx.mouse_x
+	local y = gfx.mouse_y
 
-  local isInHorizontalRegion = (x >= element.x and x < element.x+element.width)
-  local isInVerticalRegion = (y >= element.y and y < element.y+element.height)
-  return isInHorizontalRegion and isInVerticalRegion
+	local isInHorizontalRegion = (x >= element.x and x < element.x+element.width)
+	local isInVerticalRegion = (y >= element.y and y < element.y+element.height)
+	return isInHorizontalRegion and isInVerticalRegion
 end
 
 function setPositionAtMouseCursor()
@@ -404,53 +404,53 @@ function print(arg)
 end
 
 function getScreenWidth()
-  local _, _, screenWidth, _ = reaper.my_getViewport(0, 0, 0, 0, 0, 0, 0, 0, true)
-  return screenWidth
+	local _, _, screenWidth, _ = reaper.my_getViewport(0, 0, 0, 0, 0, 0, 0, 0, true)
+	return screenWidth
 end
 
 function getScreenHeight()
-  local _, _, _, screenHeight = reaper.my_getViewport(0, 0, 0, 0, 0, 0, 0, 0, true)
-  return screenHeight
+	local _, _, _, screenHeight = reaper.my_getViewport(0, 0, 0, 0, 0, 0, 0, 0, true)
+	return screenHeight
 end
 
 function windowIsDocked()
-  return gfx.dock(-1) > 0
+	return gfx.dock(-1) > 0
 end
 
 function windowIsNotDocked()
-  return not windowIsDocked()
+	return not windowIsDocked()
 end
 
 function notesAreSelected()
 
-  local activeMidiEditor = reaper.MIDIEditor_GetActive()
-  local activeTake = reaper.MIDIEditor_GetTake(activeMidiEditor)
+	local activeMidiEditor = reaper.MIDIEditor_GetActive()
+	local activeTake = reaper.MIDIEditor_GetTake(activeMidiEditor)
 
-  local noteIndex = 0
-  local noteExists = true
-  local noteIsSelected = false
+	local noteIndex = 0
+	local noteExists = true
+	local noteIsSelected = false
 
-  while noteExists do
+	while noteExists do
 
-    noteExists, noteIsSelected = reaper.MIDI_GetNote(activeTake, noteIndex)
+		noteExists, noteIsSelected = reaper.MIDI_GetNote(activeTake, noteIndex)
 
-    if noteIsSelected then
-      return true
-    end
-  
-    noteIndex = noteIndex + 1
-  end
+		if noteIsSelected then
+			return true
+		end
+	
+		noteIndex = noteIndex + 1
+	end
 
-  return false
+	return false
 end
 
 function startUndoBlock()
-  reaper.Undo_BeginBlock()
+	reaper.Undo_BeginBlock()
 end
 
 function endUndoBlock(actionDescription)
-  reaper.Undo_OnStateChange(actionDescription)
-  reaper.Undo_EndBlock(actionDescription, -1)
+	reaper.Undo_OnStateChange(actionDescription)
+	reaper.Undo_EndBlock(actionDescription, -1)
 end
 
 function emptyFunctionToPreventAutomaticCreationOfUndoPoint()
@@ -475,32 +475,32 @@ end
 
 function Timer:start()
 
-  self.timerIsStopped = false
-  self.startingTime = reaper.time_precise()
+	self.timerIsStopped = false
+	self.startingTime = reaper.time_precise()
 end
 
 function Timer:stop()
 
-  self.timerIsStopped = true
+	self.timerIsStopped = true
 end
 
 function Timer:timeHasElapsed()
 
-  local currentTime = reaper.time_precise()
+	local currentTime = reaper.time_precise()
 
-  if self.timerIsStopped then
-    return false
-  end
+	if self.timerIsStopped then
+		return false
+	end
 
-  if currentTime - self.startingTime > self.numberOfSeconds then
-    return true
-  else
-    return false
-  end
+	if currentTime - self.startingTime > self.numberOfSeconds then
+		return true
+	else
+		return false
+	end
 end
 
 function Timer:timeHasNotElapsed()
-  return not self:timeHasElapsed()
+	return not self:timeHasElapsed()
 end
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
@@ -1128,15 +1128,15 @@ local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
 function insertMidiNote(note, keepNotesSelected)
 
-  local noteIsMuted = false
-  local startPosition = getCursorPositionPPQ()
-  local endPosition = getMidiEndPositionPPQ()
+	local noteIsMuted = false
+	local startPosition = getCursorPositionPPQ()
+	local endPosition = getMidiEndPositionPPQ()
 
-  local channel = getCurrentNoteChannel()
-  local velocity = getCurrentVelocity()
-  local noSort = false
+	local channel = getCurrentNoteChannel()
+	local velocity = getCurrentVelocity()
+	local noSort = false
 
-  reaper.MIDI_InsertNote(activeTake(), keepNotesSelected, noteIsMuted, startPosition, endPosition, channel, note, velocity, noSort)
+	reaper.MIDI_InsertNote(activeTake(), keepNotesSelected, noteIsMuted, startPosition, endPosition, channel, note, velocity, noSort)
 end
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
@@ -1217,9 +1217,9 @@ end
 
 function insertScaleNote(noteValue, keepNotesSelected)
 
-  deleteExistingNotesInNextInsertionTimePeriod()
-  insertMidiNote(noteValue, keepNotesSelected)
-  moveCursor()
+	deleteExistingNotesInNextInsertionTimePeriod()
+	insertMidiNote(noteValue, keepNotesSelected)
+	moveCursor()
 end
 
 function previewScaleNote(octaveAdjustment)
@@ -1235,7 +1235,7 @@ end
 
 function playOrInsertScaleNote(octaveAdjustment, actionDescription)
 
-  local scaleNoteIndex = getSelectedScaleNote()
+	local scaleNoteIndex = getSelectedScaleNote()
 
   local root = scaleNotes[scaleNoteIndex]
   local octave = getOctave()
@@ -1243,84 +1243,84 @@ function playOrInsertScaleNote(octaveAdjustment, actionDescription)
 
   if activeTake() ~= nil and notCurrentlyRecording() then
 
-    startUndoBlock()
+  	startUndoBlock()
 
-      if thereAreNotesSelected() then 
-        changeSelectedNotesToScaleNotes(noteValue)
-      else
-        insertScaleNote(noteValue, false)
-      end
+		  if thereAreNotesSelected() then 
+		    changeSelectedNotesToScaleNotes(noteValue)
+		  else
+		    insertScaleNote(noteValue, false)
+		  end
 
-    endUndoBlock(actionDescription)
+		endUndoBlock(actionDescription)
   end
 
-  playScaleNote(noteValue)
+	playScaleNote(noteValue)
 end
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
 local function getNoteStartingPositions()
 
-  local numberOfNotes = getNumberOfNotes()
-  local previousNoteStartPositionPPQ = -1
-  local noteStartingPositions = {}
+	local numberOfNotes = getNumberOfNotes()
+	local previousNoteStartPositionPPQ = -1
+	local noteStartingPositions = {}
 
-  for noteIndex = 0, numberOfNotes-1 do
+	for noteIndex = 0, numberOfNotes-1 do
 
-    local _, noteIsSelected, noteIsMuted, noteStartPositionPPQ, noteEndPositionPPQ = reaper.MIDI_GetNote(activeTake(), noteIndex)
-  
-    if noteIsSelected then
+		local _, noteIsSelected, noteIsMuted, noteStartPositionPPQ, noteEndPositionPPQ = reaper.MIDI_GetNote(activeTake(), noteIndex)
+	
+		if noteIsSelected then
 
-      if noteStartPositionPPQ ~= previousNoteStartPositionPPQ then
-        table.insert(noteStartingPositions, noteStartPositionPPQ)
-      end
+			if noteStartPositionPPQ ~= previousNoteStartPositionPPQ then
+				table.insert(noteStartingPositions, noteStartPositionPPQ)
+			end
 
-      previousNoteStartPositionPPQ = noteStartPositionPPQ
-    end
-  end
+			previousNoteStartPositionPPQ = noteStartPositionPPQ
+		end
+	end
 
-  return noteStartingPositions
+	return noteStartingPositions
 end
 
 local function deleteSelectedNotes()
 
-  local numberOfNotes = getNumberOfNotes()
+	local numberOfNotes = getNumberOfNotes()
 
-  for noteIndex = numberOfNotes-1, 0, -1 do
+	for noteIndex = numberOfNotes-1, 0, -1 do
 
-    local _, noteIsSelected = reaper.MIDI_GetNote(activeTake(), noteIndex)
-  
-    if noteIsSelected then
-      deleteNote(noteIndex)
-    end
-  end
+		local _, noteIsSelected = reaper.MIDI_GetNote(activeTake(), noteIndex)
+	
+		if noteIsSelected then
+			deleteNote(noteIndex)
+		end
+	end
 end
 
 local function setEditCursorTo(arg)
 
-  local cursorPosition = reaper.MIDI_GetProjTimeFromPPQPos(activeTake(), arg)
-  setEditCursorPosition(cursorPosition)
+	local cursorPosition = reaper.MIDI_GetProjTimeFromPPQPos(activeTake(), arg)
+	setEditCursorPosition(cursorPosition)
 end
 
 function changeSelectedNotesToScaleChords(chordNotesArray)
 
-  local noteStartingPositions = getNoteStartingPositions()
-  deleteSelectedNotes()
-  
-  for i = 1, #noteStartingPositions do
-    setEditCursorTo(noteStartingPositions[i])
-    insertScaleChord(chordNotesArray, true)
-  end
+	local noteStartingPositions = getNoteStartingPositions()
+	deleteSelectedNotes()
+	
+	for i = 1, #noteStartingPositions do
+		setEditCursorTo(noteStartingPositions[i])
+		insertScaleChord(chordNotesArray, true)
+	end
 end
 
 function changeSelectedNotesToScaleNotes(noteValue)
 
-  local noteStartingPositions = getNoteStartingPositions()
-  deleteSelectedNotes()
+	local noteStartingPositions = getNoteStartingPositions()
+	deleteSelectedNotes()
 
-  for i = 1, #noteStartingPositions do
-    setEditCursorTo(noteStartingPositions[i])
-    insertScaleNote(noteValue, true)
-  end
+	for i = 1, #noteStartingPositions do
+		setEditCursorTo(noteStartingPositions[i])
+		insertScaleNote(noteValue, true)
+	end
 end
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
@@ -1574,7 +1574,7 @@ local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
 local function decrementChordInversion()
 
-  local selectedScaleNote = getSelectedScaleNote()
+	local selectedScaleNote = getSelectedScaleNote()
 
   local chordInversionMin = getChordInversionMin()
   local chordInversion = getChordInversionState(selectedScaleNote)
@@ -1588,16 +1588,16 @@ end
 
 function decrementChordInversionAction()
 
-  local actionDescription = "decrement chord inversion"
-  decrementChordInversion()
-  playOrInsertScaleChord(actionDescription)
+	local actionDescription = "decrement chord inversion"
+	decrementChordInversion()
+	playOrInsertScaleChord(actionDescription)
 end
 
 --
 
 local function incrementChordInversion()
 
-  local selectedScaleNote = getSelectedScaleNote()
+	local selectedScaleNote = getSelectedScaleNote()
 
   local chordInversionMax = getChordInversionMax()
   local chordInversion = getChordInversionState(selectedScaleNote)
@@ -1612,17 +1612,17 @@ end
 
 function incrementChordInversionAction()
 
-  local actionDescription = "increment chord inversion"
-  incrementChordInversion()
-  playOrInsertScaleChord(actionDescription)
+	local actionDescription = "increment chord inversion"
+	incrementChordInversion()
+	playOrInsertScaleChord(actionDescription)
 end
 
 --
 
 local function decrementChordType()
 
-  local selectedScaleNote = getSelectedScaleNote()
-  local selectedChordType = getSelectedChordType(selectedScaleNote)
+	local selectedScaleNote = getSelectedScaleNote()
+	local selectedChordType = getSelectedChordType(selectedScaleNote)
 
   if selectedChordType <= 1 then
     return
@@ -1633,17 +1633,17 @@ end
 
 function decrementChordTypeAction()
 
-  local actionDescription = "decrement chord type"
-  decrementChordType()
-  playOrInsertScaleChord(actionDescription)
+	local actionDescription = "decrement chord type"
+	decrementChordType()
+	playOrInsertScaleChord(actionDescription)
 end
 
 --
 
 local function incrementChordType()
 
-  local selectedScaleNote = getSelectedScaleNote()
-  local selectedChordType = getSelectedChordType(selectedScaleNote)
+	local selectedScaleNote = getSelectedScaleNote()
+	local selectedChordType = getSelectedChordType(selectedScaleNote)
 
   if selectedChordType >= #chords then
     return
@@ -1654,9 +1654,9 @@ end
 
 function incrementChordTypeAction()
 
-  local actionDescription = "increment chord type"
-  incrementChordType()
-  playOrInsertScaleChord(actionDescription)
+	local actionDescription = "increment chord type"
+	incrementChordType()
+	playOrInsertScaleChord(actionDescription)
 end
 
 --
@@ -1685,15 +1685,15 @@ end
 
 function decrementOctaveAction()
 
-  decrementOctave()
+	decrementOctave()
 
-  if thereAreNotesSelected() then
-    startUndoBlock()
-    transposeSelectedNotesDownOneOctave()
-    endUndoBlock("decrement octave")
-  else
-    playTonicNote()
-  end
+	if thereAreNotesSelected() then
+		startUndoBlock()
+		transposeSelectedNotesDownOneOctave()
+		endUndoBlock("decrement octave")
+	else
+		playTonicNote()
+	end
 end
 
 --
@@ -1711,202 +1711,202 @@ end
 
 function incrementOctaveAction()
 
-  incrementOctave()
+	incrementOctave()
 
-  if thereAreNotesSelected() then
-    startUndoBlock()
-    transposeSelectedNotesUpOneOctave()
-    endUndoBlock("increment octave")
-  else
-    playTonicNote()
-  end
+	if thereAreNotesSelected() then
+		startUndoBlock()
+		transposeSelectedNotesUpOneOctave()
+		endUndoBlock("increment octave")
+	else
+		playTonicNote()
+	end
 end
 
 --
 
 local function decrementScaleTonicNote()
 
-  local scaleTonicNote = getScaleTonicNote()
+	local scaleTonicNote = getScaleTonicNote()
 
-  if scaleTonicNote <= 1 then
-    return
-  end
+	if scaleTonicNote <= 1 then
+		return
+	end
 
-  setScaleTonicNote(scaleTonicNote-1)
+	setScaleTonicNote(scaleTonicNote-1)
 end
 
 function decrementScaleTonicNoteAction()
 
-  decrementScaleTonicNote()
+	decrementScaleTonicNote()
 
-  setSelectedScaleNote(1)
-  setChordText("")
-  resetSelectedChordTypes()
-  resetChordInversionStates()
-  updateScaleData()
-  updateScaleDegreeHeaders()
-  showScaleStatus()
+	setSelectedScaleNote(1)
+	setChordText("")
+	resetSelectedChordTypes()
+	resetChordInversionStates()
+	updateScaleData()
+	updateScaleDegreeHeaders()
+	showScaleStatus()
 end
 
 --
 
 local function incrementScaleTonicNote()
 
-  local scaleTonicNote = getScaleTonicNote()
+	local scaleTonicNote = getScaleTonicNote()
 
-  if scaleTonicNote >= #notes then
-    return
-  end
+	if scaleTonicNote >= #notes then
+		return
+	end
 
-  setScaleTonicNote(scaleTonicNote+1)
+	setScaleTonicNote(scaleTonicNote+1)
 end
 
 function incrementScaleTonicNoteAction()
 
-  incrementScaleTonicNote()
+	incrementScaleTonicNote()
 
-  setSelectedScaleNote(1)
-  setChordText("")
-  resetSelectedChordTypes()
-  resetChordInversionStates()
-  updateScaleData()
-  updateScaleDegreeHeaders()
-  showScaleStatus()
+	setSelectedScaleNote(1)
+	setChordText("")
+	resetSelectedChordTypes()
+	resetChordInversionStates()
+	updateScaleData()
+	updateScaleDegreeHeaders()
+	showScaleStatus()
 end
 
 --
 
 local function decrementScaleType()
 
-  local scaleType = getScaleType()
+	local scaleType = getScaleType()
 
-  if scaleType <= 1 then
-    return
-  end
+	if scaleType <= 1 then
+		return
+	end
 
-  setScaleType(scaleType-1)
-  
+	setScaleType(scaleType-1)
+	
 end
 
 function decrementScaleTypeAction()
 
-  decrementScaleType()
+	decrementScaleType()
 
-  setSelectedScaleNote(1)
-  setChordText("")
-  resetSelectedChordTypes()
-  resetChordInversionStates()
-  updateScaleData()
-  updateScaleDegreeHeaders()
-  showScaleStatus()
+	setSelectedScaleNote(1)
+	setChordText("")
+	resetSelectedChordTypes()
+	resetChordInversionStates()
+	updateScaleData()
+	updateScaleDegreeHeaders()
+	showScaleStatus()
 end
 
 --
 
 local function incrementScaleType()
 
-  local scaleType = getScaleType()
+	local scaleType = getScaleType()
 
-  if scaleType >= #scales then
-    return
-  end
+	if scaleType >= #scales then
+		return
+	end
 
-  setScaleType(scaleType+1)
+	setScaleType(scaleType+1)
 end
 
 function incrementScaleTypeAction()
 
-  incrementScaleType()
+	incrementScaleType()
 
-  setSelectedScaleNote(1)
-  setChordText("")
-  resetSelectedChordTypes()
-  resetChordInversionStates()
-  updateScaleData()
-  updateScaleDegreeHeaders()
-  showScaleStatus()
+	setSelectedScaleNote(1)
+	setChordText("")
+	resetSelectedChordTypes()
+	resetChordInversionStates()
+	updateScaleData()
+	updateScaleDegreeHeaders()
+	showScaleStatus()
 end
 
 ----
 
 local function scaleIsPentatonic()
 
-  local scaleType = getScaleType()
-  local scaleTypeName = string.lower(scales[scaleType].name)
-  return string.match(scaleTypeName, "pentatonic")
+	local scaleType = getScaleType()
+	local scaleTypeName = string.lower(scales[scaleType].name)
+	return string.match(scaleTypeName, "pentatonic")
 end
 
 
 function scaleChordAction(scaleNoteIndex)
 
-  if scaleIsPentatonic() and scaleNoteIndex > 5 then
-    return
-  end
+	if scaleIsPentatonic() and scaleNoteIndex > 5 then
+		return
+	end
 
-  setSelectedScaleNote(scaleNoteIndex)
+	setSelectedScaleNote(scaleNoteIndex)
 
-  local selectedChordType = getSelectedChordType(scaleNoteIndex)
-  local chord = scaleChords[scaleNoteIndex][selectedChordType]
-  local actionDescription = "scale chord " .. scaleNoteIndex .. "  (" .. chord.code .. ")"
+	local selectedChordType = getSelectedChordType(scaleNoteIndex)
+	local chord = scaleChords[scaleNoteIndex][selectedChordType]
+	local actionDescription = "scale chord " .. scaleNoteIndex .. "  (" .. chord.code .. ")"
 
-  playOrInsertScaleChord(actionDescription)
+	playOrInsertScaleChord(actionDescription)
 end
 
 function previewScaleChordAction(scaleNoteIndex)
 
-  if scaleIsPentatonic() and scaleNoteIndex > 5 then
-    return
-  end
+	if scaleIsPentatonic() and scaleNoteIndex > 5 then
+		return
+	end
 
-  setSelectedScaleNote(scaleNoteIndex)
-  previewScaleChord()
+	setSelectedScaleNote(scaleNoteIndex)
+	previewScaleChord()
 end
 
 --
 
 function scaleNoteAction(scaleNoteIndex)
 
-  if scaleIsPentatonic() and scaleNoteIndex > 5 then
-    return
-  end
+	if scaleIsPentatonic() and scaleNoteIndex > 5 then
+		return
+	end
 
-  setSelectedScaleNote(scaleNoteIndex)
-  local actionDescription = "scale note " .. scaleNoteIndex
-  playOrInsertScaleNote(0, actionDescription)
+	setSelectedScaleNote(scaleNoteIndex)
+	local actionDescription = "scale note " .. scaleNoteIndex
+	playOrInsertScaleNote(0, actionDescription)
 end
 
 --
 
 function lowerScaleNoteAction(scaleNoteIndex)
 
-  if scaleIsPentatonic() and scaleNoteIndex > 5 then
-    return
-  end
+	if scaleIsPentatonic() and scaleNoteIndex > 5 then
+		return
+	end
 
   if getOctave() <= getOctaveMin() then
     return
   end
 
-  setSelectedScaleNote(scaleNoteIndex)
-  local actionDescription = "lower scale note " .. scaleNoteIndex
-  playOrInsertScaleNote(-1, actionDescription)
+	setSelectedScaleNote(scaleNoteIndex)
+	local actionDescription = "lower scale note " .. scaleNoteIndex
+	playOrInsertScaleNote(-1, actionDescription)
 end
 
 --
 
 function higherScaleNoteAction(scaleNoteIndex)
 
-  if scaleIsPentatonic() and scaleNoteIndex > 5 then
-    return
-  end
+	if scaleIsPentatonic() and scaleNoteIndex > 5 then
+		return
+	end
 
   if getOctave() >= getOctaveMax() then
     return
   end
 
-  setSelectedScaleNote(scaleNoteIndex)
-  local actionDescription = "higher scale note " .. scaleNoteIndex
-  playOrInsertScaleNote(1, actionDescription)
+	setSelectedScaleNote(scaleNoteIndex)
+	local actionDescription = "higher scale note " .. scaleNoteIndex
+	playOrInsertScaleNote(1, actionDescription)
 end
 
 
@@ -1914,40 +1914,40 @@ end
 
 function previewScaleNoteAction(scaleNoteIndex)
 
-  if scaleIsPentatonic() and scaleNoteIndex > 5 then
-    return
-  end
+	if scaleIsPentatonic() and scaleNoteIndex > 5 then
+		return
+	end
 
-  setSelectedScaleNote(scaleNoteIndex)
-  previewScaleNote(0)
+	setSelectedScaleNote(scaleNoteIndex)
+	previewScaleNote(0)
 end
 
 function previewLowerScaleNoteAction(scaleNoteIndex)
 
-  if scaleIsPentatonic() and scaleNoteIndex > 5 then
-    return
-  end
+	if scaleIsPentatonic() and scaleNoteIndex > 5 then
+		return
+	end
 
-  if getOctave() <= getOctaveMin() then
-    return
-  end
+	if getOctave() <= getOctaveMin() then
+		return
+	end
 
-  setSelectedScaleNote(scaleNoteIndex)
-  previewScaleNote(-1)
+	setSelectedScaleNote(scaleNoteIndex)
+	previewScaleNote(-1)
 end
 
 function previewHigherScaleNoteAction(scaleNoteIndex)
 
-  if scaleIsPentatonic() and scaleNoteIndex > 5 then
-    return
-  end
+	if scaleIsPentatonic() and scaleNoteIndex > 5 then
+		return
+	end
 
-  if getOctave() >= getOctaveMax() then
-    return
-  end
+	if getOctave() >= getOctaveMax() then
+		return
+	end
 
-  setSelectedScaleNote(scaleNoteIndex)
-  previewScaleNote(1)
+	setSelectedScaleNote(scaleNoteIndex)
+	previewScaleNote(1)
 end
 function drawDropdownIcon()
 
@@ -3092,163 +3092,163 @@ function drawRightArrow()
 end
 local function hex2rgb(arg) 
 
-  local r, g, b = arg:match('(..)(..)(..)')
-  r = tonumber(r, 16)/255
-  g = tonumber(g, 16)/255
-  b = tonumber(b, 16)/255
-  return r, g, b
+	local r, g, b = arg:match('(..)(..)(..)')
+	r = tonumber(r, 16)/255
+	g = tonumber(g, 16)/255
+	b = tonumber(b, 16)/255
+	return r, g, b
 end
 
 local function setColor(hexColor)
 
-  local r, g, b = hex2rgb(hexColor)
-  gfx.set(r, g, b, 1)
+	local r, g, b = hex2rgb(hexColor)
+	gfx.set(r, g, b, 1)
 end
 
 --[[ window ]]--
 
 function setDrawColorToBackground()
-  setColor("242424")
+	setColor("242424")
 end
 
 --[[ buttons ]]--
 
 function setDrawColorToNormalButton()
-  setColor("2D2D2D")
+	setColor("2D2D2D")
 end
 
 function setDrawColorToHighlightedButton()
-  setColor("474747")
+	setColor("474747")
 end
 
 --
 
 function setDrawColorToSelectedChordTypeButton()
-  setColor("474747")
+	setColor("474747")
 end
 
 function setDrawColorToHighlightedSelectedChordTypeButton()
-  setColor("717171")
+	setColor("717171")
 end
 
 --
 
 function setDrawColorToSelectedChordTypeAndScaleNoteButton()
-  setColor("DCDCDC")
+	setColor("DCDCDC")
 end
 
 function setDrawColorToHighlightedSelectedChordTypeAndScaleNoteButton()
-  setColor("FFFFFF")
+	setColor("FFFFFF")
 end
 
 --
 
 function setDrawColorToOutOfScaleButton()
-  setColor("121212")
+	setColor("121212")
 end
 
 function setDrawColorToHighlightedOutOfScaleButton()
-  setColor("474747")
+	setColor("474747")
 end
 
 --
 
 function setDrawColorToButtonOutline()
-  setColor("1D1D1D")
+	setColor("1D1D1D")
 end
 
 --[[ button text ]]--
 
 function setDrawColorToNormalButtonText()
-  setColor("D7D7D7")
+	setColor("D7D7D7")
 end
 
 function setDrawColorToHighlightedButtonText()
-  setColor("EEEEEE")
+	setColor("EEEEEE")
 end
 
 --
 
 function setDrawColorToSelectedChordTypeButtonText()
-  setColor("F1F1F1")
+	setColor("F1F1F1")
 end
 
 function setDrawColorToHighlightedSelectedChordTypeButtonText()
-  setColor("FDFDFD")
+	setColor("FDFDFD")
 end
 
 --
 
 function setDrawColorToSelectedChordTypeAndScaleNoteButtonText()
-  setColor("121212")
+	setColor("121212")
 end
 
 function setDrawColorToHighlightedSelectedChordTypeAndScaleNoteButtonText()
-  setColor("000000")
+	setColor("000000")
 end
 
 --[[ buttons ]]--
 
 function setDrawColorToHeaderOutline()
-  setColor("151515")
+	setColor("151515")
 end
 
 function setDrawColorToHeaderBackground()
-  setColor("242424")
+	setColor("242424")
 end
 
 function setDrawColorToHeaderText()
-  setColor("818181")
+	setColor("818181")
 end
 
 
 --[[ frame ]]--
 function setDrawColorToFrameOutline()
-  setColor("0D0D0D")
+	setColor("0D0D0D")
 end
 
 function setDrawColorToFrameBackground()
-  setColor("181818")
+	setColor("181818")
 end
 
 
 --[[ dropdown ]]--
 function setDrawColorToDropdownOutline()
-  setColor("090909")
+	setColor("090909")
 end
 
 function setDrawColorToDropdownBackground()
-  setColor("1D1D1D")
+	setColor("1D1D1D")
 end
 
 function setDrawColorToDropdownText()
-  setColor("D7D7D7")
+	setColor("D7D7D7")
 end
 
 --[[ valuebox ]]--
 function setDrawColorToValueBoxOutline()
-  setColor("090909")
+	setColor("090909")
 end
 
 function setDrawColorToValueBoxBackground()
-  setColor("161616")
+	setColor("161616")
 end
 
 function setDrawColorToValueBoxText()
-  setColor("9F9F9F")
+	setColor("9F9F9F")
 end
 
 
 --[[ text ]]--
 function setDrawColorToText()
-  setColor("878787")
+	setColor("878787")
 end
 
 
 --[[ debug ]]--
 
 function setDrawColorToRed()
-  setColor("FF0000")
+	setColor("FF0000")
 end
 
 
@@ -3258,27 +3258,27 @@ end
 --[[
 function setDrawColorToBackground()
 
-  local r, g, b
-  local backgroundColor = {36, 36, 36, 1}    -- #242424
-  gfx.set(table.unpack(backgroundColor))
+	local r, g, b
+	local backgroundColor = {36, 36, 36, 1}		-- #242424
+	gfx.set(table.unpack(backgroundColor))
 end
 
 function setDrawColorToNormalButton()
 
-  local backgroundColor = {45, 45, 45, 1}    -- #2D2D2D
-  gfx.set(table.unpack(backgroundColor))
+	local backgroundColor = {45, 45, 45, 1}		-- #2D2D2D
+	gfx.set(table.unpack(backgroundColor))
 end
 
 function setDrawColorToHighlightedButton()
 
-  local backgroundColor = {71, 71, 71, 1}    -- #474747
-  gfx.set(table.unpack(backgroundColor))
+	local backgroundColor = {71, 71, 71, 1}		-- #474747
+	gfx.set(table.unpack(backgroundColor))
 end
 
 function setDrawColorToSelectedButton()
 
-  local backgroundColor = {220, 220, 220, 1}  -- #DCDCDC
-  gfx.set(table.unpack(backgroundColor))
+	local backgroundColor = {220, 220, 220, 1}	-- #DCDCDC
+	gfx.set(table.unpack(backgroundColor))
 end
 ]]--
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
@@ -3418,11 +3418,11 @@ function OctaveValueBox:drawText()
 
   local octaveText = getOctave()
 
-  setDrawColorToValueBoxText()
-  local stringWidth, stringHeight = gfx.measurestr(octaveText)
-  gfx.x = self.x + ((self.width - stringWidth) / 2)
-  gfx.y = self.y + ((self.height - stringHeight) / 2)
-  gfx.drawstr(octaveText)
+	setDrawColorToValueBoxText()
+	local stringWidth, stringHeight = gfx.measurestr(octaveText)
+	gfx.x = self.x + ((self.width - stringWidth) / 2)
+	gfx.y = self.y + ((self.height - stringHeight) / 2)
+	gfx.drawstr(octaveText)
 end
 
 local hitAreaWidth = 18
@@ -3480,10 +3480,10 @@ end
 
 function Label:drawText(text)
 
-  setDrawColorToText()
-  local stringWidth, stringHeight = gfx.measurestr(text)
-  gfx.x = self.x + ((self.width - stringWidth) / 2)
-  gfx.y = self.y + ((self.height - stringHeight) / 2)
+	setDrawColorToText()
+	local stringWidth, stringHeight = gfx.measurestr(text)
+	gfx.x = self.x + ((self.width - stringWidth) / 2)
+	gfx.y = self.y + ((self.height - stringHeight) / 2)
   gfx.drawstr(text)
 end
 
@@ -3652,83 +3652,83 @@ end
 
 function Dropdown:drawRectangle()
 
-    setDrawColorToDropdownBackground()
-    gfx.rect(self.x, self.y, self.width, self.height)
+		setDrawColorToDropdownBackground()
+		gfx.rect(self.x, self.y, self.width, self.height)
 end
 
 function Dropdown:drawRectangleOutline()
 
-    setDrawColorToDropdownOutline()
-    gfx.rect(self.x-1, self.y-1, self.width+1, self.height+1, false)
+		setDrawColorToDropdownOutline()
+		gfx.rect(self.x-1, self.y-1, self.width+1, self.height+1, false)
 end
 
 function Dropdown:drawRectangles()
 
-  self:drawRectangle()
-  self:drawRectangleOutline()  
+	self:drawRectangle()
+	self:drawRectangleOutline()	
 end
 
 function Dropdown:drawText()
 
-  local text = self.options[self.selectedIndex]
+	local text = self.options[self.selectedIndex]
 
-  setDrawColorToDropdownText()
-  local stringWidth, stringHeight = gfx.measurestr(text)
-  gfx.x = self.x + 7
-  gfx.y = self.y + ((self.height - stringHeight) / 2)
-  gfx.drawstr(text)
+	setDrawColorToDropdownText()
+	local stringWidth, stringHeight = gfx.measurestr(text)
+	gfx.x = self.x + 7
+	gfx.y = self.y + ((self.height - stringHeight) / 2)
+	gfx.drawstr(text)
 end
 
 function Dropdown:drawImage()
 
-  local imageWidth = 14
-  gfx.x = self.x + self.width - imageWidth - 1
-  gfx.y = self.y
-  drawDropdownIcon()
+	local imageWidth = 14
+	gfx.x = self.x + self.width - imageWidth - 1
+	gfx.y = self.y
+	drawDropdownIcon()
 end
 
 local function dropdownHasBeenClicked(dropdown)
-  return mouseIsHoveringOver(dropdown) and leftMouseButtonIsHeldDown()
+	return mouseIsHoveringOver(dropdown) and leftMouseButtonIsHeldDown()
 end
 
 function Dropdown:updateDropdownList()
 
-  self.dropdownList = {}
+	self.dropdownList = {}
 
-  for index, option in pairs(self.options) do
+	for index, option in pairs(self.options) do
 
-    if (self.selectedIndex == index) then
-      table.insert(self.dropdownList, "!" .. option)
-    else
-      table.insert(self.dropdownList, option)
-    end
-  end
+		if (self.selectedIndex == index) then
+			table.insert(self.dropdownList, "!" .. option)
+		else
+			table.insert(self.dropdownList, option)
+		end
+	end
 end
 
 function Dropdown:openMenu()
 
-  setPositionAtMouseCursor()
-  local selectedIndex = gfx.showmenu(table.concat(self.dropdownList,"|"))
+	setPositionAtMouseCursor()
+	local selectedIndex = gfx.showmenu(table.concat(self.dropdownList,"|"))
 
-  if selectedIndex <= 0 then
-    return
-  end
+	if selectedIndex <= 0 then
+		return
+	end
 
-  self.selectedIndex = selectedIndex
-  self.onSelectionCallback(selectedIndex)
-  self:updateDropdownList()
+	self.selectedIndex = selectedIndex
+	self.onSelectionCallback(selectedIndex)
+	self:updateDropdownList()
 end
 
 function Dropdown:update()
 
-    self:drawRectangles()
-    self:drawText()
-    self:drawImage()
-    
-    if mouseButtonIsNotPressedDown and dropdownHasBeenClicked(self) then
-      mouseButtonIsNotPressedDown = false
-      self:openMenu()
-    end
+		self:drawRectangles()
+		self:drawText()
+		self:drawImage()
+		
+		if mouseButtonIsNotPressedDown and dropdownHasBeenClicked(self) then
+			mouseButtonIsNotPressedDown = false
+			self:openMenu()
+		end
 end
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
@@ -3795,11 +3795,11 @@ function ChordInversionValueBox:drawText()
     chordInversionText = "0" .. chordInversionText
   end
 
-  setDrawColorToValueBoxText()
-  local stringWidth, stringHeight = gfx.measurestr(chordInversionText)
-  gfx.x = self.x + ((self.width - stringWidth) / 2)
-  gfx.y = self.y + ((self.height - stringHeight) / 2)
-  gfx.drawstr(chordInversionText)
+	setDrawColorToValueBoxText()
+	local stringWidth, stringHeight = gfx.measurestr(chordInversionText)
+	gfx.x = self.x + ((self.width - stringWidth) / 2)
+	gfx.y = self.y + ((self.height - stringHeight) / 2)
+	gfx.drawstr(chordInversionText)
 end
 
 local hitAreaWidth = 18
@@ -3887,148 +3887,146 @@ end
 
 function ChordButton:isSelectedChordType()
 
-  local selectedScaleNote = getSelectedScaleNote()
-  local selectedChordType = getSelectedChordType(self.scaleNoteIndex)
+	local selectedScaleNote = getSelectedScaleNote()
+	local selectedChordType = getSelectedChordType(self.scaleNoteIndex)
 
-  local chordTypeIsSelected = (tonumber(self.chordTypeIndex) == tonumber(selectedChordType))
-  local scaleNoteIsNotSelected = (tonumber(self.scaleNoteIndex) ~= tonumber(selectedScaleNote))
+	local chordTypeIsSelected = (tonumber(self.chordTypeIndex) == tonumber(selectedChordType))
+	local scaleNoteIsNotSelected = (tonumber(self.scaleNoteIndex) ~= tonumber(selectedScaleNote))
 
-  return chordTypeIsSelected and scaleNoteIsNotSelected
+	return chordTypeIsSelected and scaleNoteIsNotSelected
 end
 
 function ChordButton:isSelectedChordTypeAndSelectedScaleNote()
 
-  local selectedScaleNote = getSelectedScaleNote()
-  local selectedChordType = getSelectedChordType(self.scaleNoteIndex)
+	local selectedScaleNote = getSelectedScaleNote()
+	local selectedChordType = getSelectedChordType(self.scaleNoteIndex)
 
-  local chordTypeIsSelected = (tonumber(self.chordTypeIndex) == tonumber(selectedChordType))
-  local scaleNoteIsSelected = (tonumber(self.scaleNoteIndex) == tonumber(selectedScaleNote))
+	local chordTypeIsSelected = (tonumber(self.chordTypeIndex) == tonumber(selectedChordType))
+	local scaleNoteIsSelected = (tonumber(self.scaleNoteIndex) == tonumber(selectedScaleNote))
 
-  return chordTypeIsSelected and scaleNoteIsSelected
+	return chordTypeIsSelected and scaleNoteIsSelected
 end
 
 
 function ChordButton:drawButtonRectangle()
 
-    if self:isSelectedChordTypeAndSelectedScaleNote() then
+		if self:isSelectedChordTypeAndSelectedScaleNote() then
 
-      if mouseIsHoveringOver(self) then
-        setDrawColorToHighlightedSelectedChordTypeAndScaleNoteButton()
-      else
-        setDrawColorToSelectedChordTypeAndScaleNoteButton()
-      end
+			if mouseIsHoveringOver(self) then
+				setDrawColorToHighlightedSelectedChordTypeAndScaleNoteButton()
+			else
+				setDrawColorToSelectedChordTypeAndScaleNoteButton()
+			end
 
-    elseif self:isSelectedChordType() then
+		elseif self:isSelectedChordType() then
 
-      if mouseIsHoveringOver(self) then
-        setDrawColorToHighlightedSelectedChordTypeButton()
-      else
-        setDrawColorToSelectedChordTypeButton()
-      end
+			if mouseIsHoveringOver(self) then
+				setDrawColorToHighlightedSelectedChordTypeButton()
+			else
+				setDrawColorToSelectedChordTypeButton()
+			end
 
-    else
+		else
 
-      if mouseIsHoveringOver(self) then
-        setDrawColorToHighlightedButton()
-      else
+			if mouseIsHoveringOver(self) then
+				setDrawColorToHighlightedButton()
+			else
 
-        if self.chordIsInScale then
-          setDrawColorToNormalButton()
-        else
-          setDrawColorToOutOfScaleButton()
-        end      
-      end
-    end
+				if self.chordIsInScale then
+					setDrawColorToNormalButton()
+				else
+					setDrawColorToOutOfScaleButton()
+				end			
+			end
+		end
 
-    gfx.rect(self.x, self.y, self.width, self.height)
+		gfx.rect(self.x, self.y, self.width, self.height)
 end
 
 function ChordButton:drawButtonOutline()
 
-    setDrawColorToButtonOutline()
-    gfx.rect(self.x-1, self.y-1, self.width+1, self.height+1, false)
+		setDrawColorToButtonOutline()
+		gfx.rect(self.x-1, self.y-1, self.width+1, self.height+1, false)
 end
 
 function ChordButton:drawRectangles()
 
-  self:drawButtonRectangle()
-  self:drawButtonOutline()  
+	self:drawButtonRectangle()
+	self:drawButtonOutline()	
 end
 
 function ChordButton:drawText()
 
-  if self:isSelectedChordTypeAndSelectedScaleNote() then
+	if self:isSelectedChordTypeAndSelectedScaleNote() then
 
-    if mouseIsHoveringOver(self) then
-      setDrawColorToHighlightedSelectedChordTypeAndScaleNoteButtonText()
-    else
-      setDrawColorToSelectedChordTypeAndScaleNoteButtonText()
-    end
+		if mouseIsHoveringOver(self) then
+			setDrawColorToHighlightedSelectedChordTypeAndScaleNoteButtonText()
+		else
+			setDrawColorToSelectedChordTypeAndScaleNoteButtonText()
+		end
 
-  elseif self:isSelectedChordType() then
+	elseif self:isSelectedChordType() then
 
-    if mouseIsHoveringOver(self) then
-      setDrawColorToHighlightedSelectedChordTypeButtonText()
-    else
-      setDrawColorToSelectedChordTypeButtonText()
-    end
+		if mouseIsHoveringOver(self) then
+			setDrawColorToHighlightedSelectedChordTypeButtonText()
+		else
+			setDrawColorToSelectedChordTypeButtonText()
+		end
 
-  else
+	else
 
-    if mouseIsHoveringOver(self) then
-      setDrawColorToHighlightedButtonText()
-    else
-      setDrawColorToNormalButtonText()
-    end
-  end
+		if mouseIsHoveringOver(self) then
+			setDrawColorToHighlightedButtonText()
+		else
+			setDrawColorToNormalButtonText()
+		end
+	end
 
-  local stringWidth, stringHeight = gfx.measurestr(self.text)
-  gfx.x = self.x + ((self.width - stringWidth) / 2)
-  gfx.y = self.y + ((self.height - stringHeight) / 2)
-  gfx.drawstr(self.text)
+	local stringWidth, stringHeight = gfx.measurestr(self.text)
+	gfx.x = self.x + ((self.width - stringWidth) / 2)
+	gfx.y = self.y + ((self.height - stringHeight) / 2)
+	gfx.drawstr(self.text)
 end
 
 local function buttonHasBeenClicked(button)
-  return mouseIsHoveringOver(button) and leftMouseButtonIsHeldDown()
+	return mouseIsHoveringOver(button) and leftMouseButtonIsHeldDown()
 end
 
 local function shiftModifierIsHeldDown()
-  return gfx.mouse_cap & 8 == 8
+	return gfx.mouse_cap & 8 == 8
 end
 
 function ChordButton:onPress()
 
-  previewScaleChord()
+	previewScaleChord()
 end
 
 function ChordButton:onShiftPress()
 
-  local chord = scaleChords[self.scaleNoteIndex][self.chordTypeIndex]
-  local actionDescription = "scale chord " .. self.scaleNoteIndex .. "  (" .. chord.code .. ")"
-  playOrInsertScaleChord(actionDescription)
+	local chord = scaleChords[self.scaleNoteIndex][self.chordTypeIndex]
+	local actionDescription = "scale chord " .. self.scaleNoteIndex .. "  (" .. chord.code .. ")"
+	playOrInsertScaleChord(actionDescription)
 end
 
 function ChordButton:update()
 
-  self:drawRectangles()
-  self:drawText()
+	self:drawRectangles()
+	self:drawText()
 
-  if mouseButtonIsNotPressedDown and buttonHasBeenClicked(self) then
+	if mouseButtonIsNotPressedDown and buttonHasBeenClicked(self) then
 
-    mouseButtonIsNotPressedDown = false
+		mouseButtonIsNotPressedDown = false
 
-    setSelectedScaleNote(self.scaleNoteIndex)
-    setSelectedChordType(self.scaleNoteIndex, self.chordTypeIndex)
+		setSelectedScaleNote(self.scaleNoteIndex)
+		setSelectedChordType(self.scaleNoteIndex, self.chordTypeIndex)
 
-    if shiftModifierIsHeldDown() then
-      self:onShiftPress()
-    else
-      self:onPress()
-    end    
-  end
+		if shiftModifierIsHeldDown() then
+			self:onShiftPress()
+		else
+			self:onPress()
+		end		
+	end
 end
-
-
 
 inputCharacters = {}
 
@@ -4065,10 +4063,10 @@ inputCharacters["u"] = 117
 inputCharacters["v"] = 118
 inputCharacters["w"] = 119
 inputCharacters["x"] = 120
-inputCharacters["y"] = 121
-inputCharacters["z"] = 122
+inputCharacters["y"] = 121 --eng
+inputCharacters["z"] = 122 --eng
 
-inputCharacters["spc"] = 32
+
 inputCharacters["!"] = 33
 inputCharacters["@"] = 64
 inputCharacters["#"] = 35
@@ -4101,8 +4099,8 @@ inputCharacters["U"] = 85
 inputCharacters["V"] = 86
 inputCharacters["W"] = 87
 inputCharacters["X"] = 88
-inputCharacters["Y"] = 89
-inputCharacters["Z"] = 90
+inputCharacters["Y"] = 89--eng
+inputCharacters["Z"] = 90--eng
 
 inputCharacters[","] = 44
 inputCharacters["."] = 46
@@ -4132,324 +4130,369 @@ local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
 function handleInput()
 
-  inputCharacter = gfx.getchar()
+	inputCharacter = gfx.getchar()
 
-  if inputCharacter == inputCharacters["0"] then
-    stopAllNotesFromPlaying()
-  end
-  if inputCharacter == inputCharacters["spc"] then
-    stopAllNotesFromPlaying()
-  end
-  --
+	if inputCharacter == inputCharacters["0"] then
+		stopAllNotesFromPlaying()
+	end
+    if inputCharacter == inputCharacters["spc"] then
+        stopAllNotesFromPlaying()
+    end
+	--
 
-  if inputCharacter == inputCharacters["1"] then
-    previewScaleChordAction(1)
-  end
+	if inputCharacter == inputCharacters["1"] then
+		previewScaleChordAction(1)
+	end
 
-  if inputCharacter == inputCharacters["2"] then
-    previewScaleChordAction(2)
-  end
+	if inputCharacter == inputCharacters["2"] then
+		previewScaleChordAction(2)
+	end
 
-  if inputCharacter == inputCharacters["3"] then
-    previewScaleChordAction(3)
-  end
+	if inputCharacter == inputCharacters["3"] then
+		previewScaleChordAction(3)
+	end
 
-  if inputCharacter == inputCharacters["4"] then
-    previewScaleChordAction(4)
-  end
+	if inputCharacter == inputCharacters["4"] then
+		previewScaleChordAction(4)
+	end
 
-  if inputCharacter == inputCharacters["5"] then
-    previewScaleChordAction(5)
-  end
+	if inputCharacter == inputCharacters["5"] then
+		previewScaleChordAction(5)
+	end
 
-  if inputCharacter == inputCharacters["6"] then
-    previewScaleChordAction(6)
-  end
+	if inputCharacter == inputCharacters["6"] then
+		previewScaleChordAction(6)
+	end
 
-  if inputCharacter == inputCharacters["7"] then
-    previewScaleChordAction(7)
-  end
+	if inputCharacter == inputCharacters["7"] then
+		previewScaleChordAction(7)
+	end
 
-  --
+	--
 
 
-  if inputCharacter == inputCharacters["!"] then
-    scaleChordAction(1)
-  end
+	if inputCharacter == inputCharacters["!"] then
+		scaleChordAction(1)
+	end
 
-  if inputCharacter == inputCharacters["@"] then
-    scaleChordAction(2)
-  end
+	if inputCharacter == inputCharacters["@"] then
+		scaleChordAction(2)
+	end
 
-  if inputCharacter == inputCharacters["#"] then
-    scaleChordAction(3)
-  end
+	if inputCharacter == inputCharacters["#"] then
+		scaleChordAction(3)
+	end
 
-  if inputCharacter == inputCharacters["$"] then
-    scaleChordAction(4)
-  end
+	if inputCharacter == inputCharacters["$"] then
+		scaleChordAction(4)
+	end
 
-  if inputCharacter == inputCharacters["%"] then
-    scaleChordAction(5)
-  end
+	if inputCharacter == inputCharacters["%"] then
+		scaleChordAction(5)
+	end
 
-  if inputCharacter == inputCharacters["^"] then
-    scaleChordAction(6)
-  end
+	if inputCharacter == inputCharacters["^"] then
+		scaleChordAction(6)
+	end
 
-  if inputCharacter == inputCharacters["&"] then
-    scaleChordAction(7)
-  end
+	if inputCharacter == inputCharacters["&"] then
+		scaleChordAction(7)
+	end
 
-  --
+	--
 
 
-  if inputCharacter == inputCharacters["q"] then
-    previewHigherScaleNoteAction(1)
-  end
+	if inputCharacter == inputCharacters["q"] then
+		previewHigherScaleNoteAction(1)
+	end
 
-  if inputCharacter == inputCharacters["w"] then
-    previewHigherScaleNoteAction(2)
-  end
+	if inputCharacter == inputCharacters["w"] then
+		previewHigherScaleNoteAction(2)
+	end
 
-  if inputCharacter == inputCharacters["e"] then
-    previewHigherScaleNoteAction(3)
-  end
+	if inputCharacter == inputCharacters["e"] then
+		previewHigherScaleNoteAction(3)
+	end
 
-  if inputCharacter == inputCharacters["r"] then
-    previewHigherScaleNoteAction(4)
-  end
+	if inputCharacter == inputCharacters["r"] then
+		previewHigherScaleNoteAction(4)
+	end
 
-  if inputCharacter == inputCharacters["t"] then
-    previewHigherScaleNoteAction(5)
-  end
+	if inputCharacter == inputCharacters["t"] then
+		previewHigherScaleNoteAction(5)
+	end
 
-  if inputCharacter == inputCharacters["y"] then
-    previewHigherScaleNoteAction(6)
-  end
+	if inputCharacter == inputCharacters["y"] then
+		previewHigherScaleNoteAction(6)
+	end
 
-  if inputCharacter == inputCharacters["u"] then
-    previewHigherScaleNoteAction(7)
-  end
+	if inputCharacter == inputCharacters["u"] then
+		previewHigherScaleNoteAction(7)
+	end
 
-  --
+	--
 
-  if inputCharacter == inputCharacters["a"] then
-    previewScaleNoteAction(1)
-  end
+	if inputCharacter == inputCharacters["a"] then
+		previewScaleNoteAction(1)
+	end
 
-  if inputCharacter == inputCharacters["s"] then
-    previewScaleNoteAction(2)
-  end
+	if inputCharacter == inputCharacters["s"] then
+		previewScaleNoteAction(2)
+	end
 
-  if inputCharacter == inputCharacters["d"] then
-    previewScaleNoteAction(3)
-  end
+	if inputCharacter == inputCharacters["d"] then
+		previewScaleNoteAction(3)
+	end
 
-  if inputCharacter == inputCharacters["f"] then
-    previewScaleNoteAction(4)
-  end
+	if inputCharacter == inputCharacters["f"] then
+		previewScaleNoteAction(4)
+	end
 
-  if inputCharacter == inputCharacters["g"] then
-    previewScaleNoteAction(5)
-  end
+	if inputCharacter == inputCharacters["g"] then
+		previewScaleNoteAction(5)
+	end
 
-  if inputCharacter == inputCharacters["h"] then
-    previewScaleNoteAction(6)
-  end
+	if inputCharacter == inputCharacters["h"] then
+		previewScaleNoteAction(6)
+	end
 
-  if inputCharacter == inputCharacters["j"] then
-    previewScaleNoteAction(7)
-  end
+	if inputCharacter == inputCharacters["j"] then
+		previewScaleNoteAction(7)
+	end
 
-  --
+	--
 
-  if inputCharacter == inputCharacters["z"] then
-    previewLowerScaleNoteAction(1)
-  end
+	if inputCharacter == inputCharacters["z"] then
+		previewLowerScaleNoteAction(1)
+	end
 
-  if inputCharacter == inputCharacters["x"] then
-    previewLowerScaleNoteAction(2)
-  end
+	if inputCharacter == inputCharacters["x"] then
+		previewLowerScaleNoteAction(2)
+	end
 
-  if inputCharacter == inputCharacters["c"] then
-    previewLowerScaleNoteAction(3)
-  end
+	if inputCharacter == inputCharacters["c"] then
+		previewLowerScaleNoteAction(3)
+	end
 
-  if inputCharacter == inputCharacters["v"] then
-    previewLowerScaleNoteAction(4)
-  end
+	if inputCharacter == inputCharacters["v"] then
+		previewLowerScaleNoteAction(4)
+	end
 
-  if inputCharacter == inputCharacters["b"] then
-    previewLowerScaleNoteAction(5)
-  end
+	if inputCharacter == inputCharacters["b"] then
+		previewLowerScaleNoteAction(5)
+	end
 
-  if inputCharacter == inputCharacters["n"] then
-    previewLowerScaleNoteAction(6)
-  end
+	if inputCharacter == inputCharacters["n"] then
+		previewLowerScaleNoteAction(6)
+	end
 
-  if inputCharacter == inputCharacters["m"] then
-    previewLowerScaleNoteAction(7)
-  end
+	if inputCharacter == inputCharacters["m"] then
+		previewLowerScaleNoteAction(7)
+	end
 
 
 
-  --
+	--
 
 
-  if inputCharacter == inputCharacters["Q"] then
-    higherScaleNoteAction(1)
-  end
+	if inputCharacter == inputCharacters["Q"] then
+		higherScaleNoteAction(1)
+	end
 
-  if inputCharacter == inputCharacters["W"] then
-    higherScaleNoteAction(2)
-  end
+	if inputCharacter == inputCharacters["W"] then
+		higherScaleNoteAction(2)
+	end
 
-  if inputCharacter == inputCharacters["E"] then
-    higherScaleNoteAction(3)
-  end
+	if inputCharacter == inputCharacters["E"] then
+		higherScaleNoteAction(3)
+	end
 
-  if inputCharacter == inputCharacters["R"] then
-    higherScaleNoteAction(4)
-  end
+	if inputCharacter == inputCharacters["R"] then
+		higherScaleNoteAction(4)
+	end
 
-  if inputCharacter == inputCharacters["T"] then
-    higherScaleNoteAction(5)
-  end
+	if inputCharacter == inputCharacters["T"] then
+		higherScaleNoteAction(5)
+	end
 
-  if inputCharacter == inputCharacters["Y"] then
-    higherScaleNoteAction(6)
-  end
+	if inputCharacter == inputCharacters["Y"] then
+		higherScaleNoteAction(6)
+	end
 
-  if inputCharacter == inputCharacters["U"] then
-    higherScaleNoteAction(7)
-  end
+	if inputCharacter == inputCharacters["U"] then
+		higherScaleNoteAction(7)
+	end
 
-  --
+	--
 
-  if inputCharacter == inputCharacters["A"] then
-    scaleNoteAction(1)
-  end
+	if inputCharacter == inputCharacters["A"] then
+		scaleNoteAction(1)
+	end
 
-  if inputCharacter == inputCharacters["S"] then
-    scaleNoteAction(2)
-  end
+	if inputCharacter == inputCharacters["S"] then
+		scaleNoteAction(2)
+	end
 
-  if inputCharacter == inputCharacters["D"] then
-    scaleNoteAction(3)
-  end
+	if inputCharacter == inputCharacters["D"] then
+		scaleNoteAction(3)
+	end
 
-  if inputCharacter == inputCharacters["F"] then
-    scaleNoteAction(4)
-  end
+	if inputCharacter == inputCharacters["F"] then
+		scaleNoteAction(4)
+	end
 
-  if inputCharacter == inputCharacters["G"] then
-    scaleNoteAction(5)
-  end
+	if inputCharacter == inputCharacters["G"] then
+		scaleNoteAction(5)
+	end
 
-  if inputCharacter == inputCharacters["H"] then
-    scaleNoteAction(6)
-  end
+	if inputCharacter == inputCharacters["H"] then
+		scaleNoteAction(6)
+	end
 
-  if inputCharacter == inputCharacters["J"] then
-    scaleNoteAction(7)
-  end
+	if inputCharacter == inputCharacters["J"] then
+		scaleNoteAction(7)
+	end
 
-  --
+	--
 
-  if inputCharacter == inputCharacters["Z"] then
-    lowerScaleNoteAction(1)
-  end
+	if inputCharacter == inputCharacters["Z"] then
+		lowerScaleNoteAction(1)
+	end
 
-  if inputCharacter == inputCharacters["X"] then
-    lowerScaleNoteAction(2)
-  end
+	if inputCharacter == inputCharacters["X"] then
+		lowerScaleNoteAction(2)
+	end
 
-  if inputCharacter == inputCharacters["C"] then
-    lowerScaleNoteAction(3)
-  end
+	if inputCharacter == inputCharacters["C"] then
+		lowerScaleNoteAction(3)
+	end
 
-  if inputCharacter == inputCharacters["V"] then
-    lowerScaleNoteAction(4)
-  end
+	if inputCharacter == inputCharacters["V"] then
+		lowerScaleNoteAction(4)
+	end
 
-  if inputCharacter == inputCharacters["B"] then
-    lowerScaleNoteAction(5)
-  end
+	if inputCharacter == inputCharacters["B"] then
+		lowerScaleNoteAction(5)
+	end
 
-  if inputCharacter == inputCharacters["N"] then
-    lowerScaleNoteAction(6)
-  end
+	if inputCharacter == inputCharacters["N"] then
+		lowerScaleNoteAction(6)
+	end
 
-  if inputCharacter == inputCharacters["M"] then
-    lowerScaleNoteAction(7)
-  end
+	if inputCharacter == inputCharacters["M"] then
+		lowerScaleNoteAction(7)
+	end
 
 -----------------
 
 --[[
-  local function shiftKeyIsHeldDown()
-    return gfx.mouse_cap & 8 == 8
-  end
+	local function shiftKeyIsHeldDown()
+		return gfx.mouse_cap & 8 == 8
+	end
 ]]--
-  function controlKeyIsHeldDown()
-    return gfx.mouse_cap & 32 == 32 
-  end
+	local function controlKeyIsHeldDown()
+		return gfx.mouse_cap & 32 == 32 
+	end
 
-  function optionKeyIsHeldDown()
-    return gfx.mouse_cap & 16 == 16
-  end
+	local function optionKeyIsHeldDown()
+		return gfx.mouse_cap & 16 == 16
+	end
 
-  function commandKeyIsHeldDown()
-    return gfx.mouse_cap & 4 == 4
-  end
+	local function commandKeyIsHeldDown()
+		return gfx.mouse_cap & 4 == 4
+	end
 
-  --
+	--
 
 --[[
-  local function shiftKeyIsNotHeldDown()
-    return gfx.mouse_cap & 8 ~= 8
-  end
+	local function shiftKeyIsNotHeldDown()
+		return gfx.mouse_cap & 8 ~= 8
+	end
 ]]--
 
-  function controlKeyIsNotHeldDown()
-    return gfx.mouse_cap & 32 ~= 32
-  end
+	local function controlKeyIsNotHeldDown()
+		return gfx.mouse_cap & 32 ~= 32
+	end
 
-  function optionKeyIsNotHeldDown()
-    return gfx.mouse_cap & 16 ~= 16
-  end
+	local function optionKeyIsNotHeldDown()
+		return gfx.mouse_cap & 16 ~= 16
+	end
 
-  function commandKeyIsNotHeldDown()
-    return gfx.mouse_cap & 4 ~= 4
-  end
+	local function commandKeyIsNotHeldDown()
+		return gfx.mouse_cap & 4 ~= 4
+	end
 
-  --
+	--
 
 --[[
-  local function shiftModifierIsActive()
-    return shiftKeyIsHeldDown() and controlKeyIsNotHeldDown() and optionKeyIsNotHeldDown() and commandKeyIsNotHeldDown()
-  end
+	local function shiftModifierIsActive()
+		return shiftKeyIsHeldDown() and controlKeyIsNotHeldDown() and optionKeyIsNotHeldDown() and commandKeyIsNotHeldDown()
+	end
 ]]--
 
-  function controlModifierIsActive()
+	local function controlModifierIsActive()
+		return controlKeyIsHeldDown() and optionKeyIsNotHeldDown() and commandKeyIsNotHeldDown()
+	end
 
-    return controlKeyIsHeldDown() and optionKeyIsNotHeldDown() and commandKeyIsNotHeldDown()
-  end
+	local function optionModifierIsActive()
+		return optionKeyIsHeldDown() and controlKeyIsNotHeldDown() and commandKeyIsNotHeldDown()
+	end
 
-  function optionModifierIsActive()
-  
-    return optionKeyIsHeldDown() and controlKeyIsNotHeldDown() and commandKeyIsNotHeldDown()
-  end
-
-  function commandModifierIsActive()
-  
-    return commandKeyIsHeldDown() and optionKeyIsNotHeldDown() and controlKeyIsNotHeldDown()
-  end
+	local function commandModifierIsActive()
+		return commandKeyIsHeldDown() and optionKeyIsNotHeldDown() and controlKeyIsNotHeldDown()
+	end
 
 ---
 
-  if inputCharacter == inputCharacters["CMDQ"]  then
+	if inputCharacter == inputCharacters[","] and controlModifierIsActive() then
+		decrementScaleTonicNoteAction()
+	end
+
+	if inputCharacter == inputCharacters["."] and controlModifierIsActive() then
+		incrementScaleTonicNoteAction()
+	end
+
+	if inputCharacter == inputCharacters["<"] and controlModifierIsActive() then
+		decrementScaleTypeAction()
+	end
+
+	if inputCharacter == inputCharacters[">"] and controlModifierIsActive() then
+		incrementScaleTypeAction()
+	end
+
+	if inputCharacter == inputCharacters[","] and optionModifierIsActive() then
+		halveGridSize()
+	end
+
+	if inputCharacter == inputCharacters["."] and optionModifierIsActive() then
+		doubleGridSize()
+	end
+
+	if inputCharacter == inputCharacters["<"] and optionModifierIsActive() then
+		decrementOctaveAction()
+	end
+
+	if inputCharacter == inputCharacters[">"] and optionModifierIsActive() then
+		incrementOctaveAction()
+	end
+
+	if inputCharacter == inputCharacters[","] and commandModifierIsActive() then
+		decrementChordTypeAction()
+	end
+
+	if inputCharacter == inputCharacters["."] and commandModifierIsActive() then
+		incrementChordTypeAction()
+	end
+
+	if inputCharacter == inputCharacters["<"] and commandModifierIsActive() then
+		decrementChordInversionAction()
+	end
+
+	if inputCharacter == inputCharacters[">"] and commandModifierIsActive() then
+		incrementChordInversionAction()
+	end
+	
+	 if inputCharacter == inputCharacters["CMDQ"]  then
     decrementScaleTonicNoteAction()
   end
 
@@ -4481,12 +4524,12 @@ function handleInput()
     incrementOctaveAction() 
   end
 
-  --if inputCharacter == inputCharacters["CMDY"]  then
-   --    decrementChordTypeAction()  
-  --end
-  if inputCharacter == inputCharacters["CMDZ"]  then
+  if inputCharacter == inputCharacters["CMDY"]  then
     decrementChordTypeAction()  
   end
+  --if inputCharacter == inputCharacters["CMDZ"]  then
+  --  decrementChordTypeAction()  
+  --end
 
   if inputCharacter == inputCharacters["CMDX"]  then
     incrementChordTypeAction() 
@@ -4494,13 +4537,14 @@ function handleInput()
 
   if inputCharacter == inputCharacters["CMDC"]  then
       decrementChordInversionAction()  
-	  end
+    end
 
   if inputCharacter == inputCharacters["CMDV"]  then
       incrementChordInversionAction()  
   end
+  
   if inputCharacter == inputCharacters["CMDG"]  then
-      moveCursor()	  
+      moveCursor()    
   end
   if inputCharacter == inputCharacters["ARRIGHT"]  then
       moveCursor()    
@@ -4508,54 +4552,11 @@ function handleInput()
   if inputCharacter == inputCharacters["ARLEFT"]  then
       moveEditCursorPosition(-noteLength())
   end
-    if inputCharacter == inputCharacters["HELP"]  then
+  if inputCharacter == inputCharacters["HELP"]  then
       reaper.ClearConsole()
-	  msg="1 - play scale chord 1\n"
-	  msg=msg.."2 - play scale chord 2\n"
-	  msg=msg.."3 - play scale chord 3\n"
-	  msg=msg.."4 - play scale chord 4\n"
-	  msg=msg.."5 - play scale chord 5\n"
-	  msg=msg.."6 - play scale chord 6\n"
-	  msg=msg.."7 - play scale chord 7\n"
-	  msg=msg.."q - higher scale note 1\n"
-	  msg=msg.."w - higher scale note 2\n"
-	  msg=msg.."e - higher scale note 3\n"
-	  msg=msg.."r - higher scale note 4\n"
-	  msg=msg.."t - higher scale note 5\n"
-	  msg=msg.."y - higher scale note 6\n"
-	  msg=msg.."u - higher scale note 7\n"
-	  msg=msg.."a - scale note 1\n"
-	  msg=msg.."s - scale note 2\n"
-	  msg=msg.."d - scale note 3\n"
-	  msg=msg.."f - scale note 4\n"
-	  msg=msg.."g - scale note 5\n"
-	  msg=msg.."h - scale note 6\n"
-	  msg=msg.."j - scale note 7\n"
-	  msg=msg.."z - lower scale note 1\n"
-	  msg=msg.."x - lower scale note 2\n"
-	  msg=msg.."c - lower scale note 3\n"
-	  msg=msg.."v - lower scale note 4\n"
-	  msg=msg.."b - lower scale note 5\n"
-	  msg=msg.."n - lower scale note 6\n"
-	  msg=msg.."m - lower scale note 7\n"
-	  msg=msg.."cmd q - decrement scale tonic note\n"
-	  msg=msg.."cmd w - increment scale tonic note\n"
-	  msg=msg.."cmd e - decrement scale type\n"
-	  msg=msg.."cmd r - increment scale type\n"
-	  msg=msg.."cmd a - halve grid size\n"
-	  msg=msg.."cmd s - double grid size\n"
-	  msg=msg.."cmd d - decrement octave\n"
-	  msg=msg.."cmd f - increment octave\n"
-	  msg=msg.."cmd y - decrement chord type\n"
-	  msg=msg.."cmd z - decrement chord type (in german version)\n"
-	  msg=msg.."cmd x - increment chord type\n"
-	  msg=msg.."cmd c - decrement chord inversion\n"
-	  msg=msg.."cmd v -increment chord inversion\n"
-	  msg=msg.."cmd g - cursor one step right in grid\n"
-	  msg=msg.."right arrow -  cursour one step right (only with midi-item) \n"
-	  msg=msg.."left arrow - cursor one step left (only with midi-item)\nF1 - this help"
-	  reaper.ShowConsoleMsg(msg)
+      reaper.ShowConsoleMsg("0 - stop all notes from playing\n1 - play scale chord 1\n2 - play scale chord 2\n3 - play scale chord 3\n4 - play scale chord 4\n5 - play scale chord 5\n6 - play scale chord 6\n7 - play scale chord 7\nq - higher scale note 1\nw - higher scale note 2\ne - higher scale note 3\nr - higher scale note 4\nt - higher scale note 5\ny - higher scale note 6\nu - higher scale note 7\na - scale note 1\ns - scale note 2\nd - scale note 3\nf - scale note 4\ng - scale note 5\nh - scale note 6\nj - scale note 7\nz - lower scale note 1\nx - lower scale note 2\nc - lower scale note 3\nv - lower scale note 4\nb - lower scale note 5\nn - lower scale note 6\nm - lower scale note 7\ncmd q - decrement scale tonic note\ncmd w - increment scale tonic note\ncmd e - decrement scale type\ncmd r - increment scale type\ncmd a - halve grid size\ncmd s - double grid size\ncmd d - decrement octave\ncmd f - increment octave\ncmd y - decrement chord type\ncmd z - decrement chord type (in german version)\ncmd x - increment chord type\ncmd c - decrement chord inversion\ncmd v -increment chord inversion\ncmd g - cursor one step right in grid\nright arrow -  cursour one step right\nleft arrow - cursor one step left\nF1 - this help")
   end
+ 
 end
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
@@ -4567,14 +4568,14 @@ local interfaceHeight = 620
 
 local function getInterfaceXPos()
 
-  local screenWidth = getScreenWidth()
-  return screenWidth/2 - interfaceWidth/2
+	local screenWidth = getScreenWidth()
+	return screenWidth/2 - interfaceWidth/2
 end
 
 local function getInterfaceYPos()
 
-  local screenHeight = getScreenHeight()
-  return screenHeight/2 - interfaceHeight/2
+	local screenHeight = getScreenHeight()
+	return screenHeight/2 - interfaceHeight/2
 end
 
 local dockerXPadding = 0
@@ -4597,122 +4598,122 @@ function Interface:init(name)
 end
 
 function Interface:restartGui()
-  self.elements = {}
-  self:startGui()
+	self.elements = {}
+	self:startGui()
 end
 
 local function getDockerXPadding()
 
-  if gfx.w <= interfaceWidth then
-    return 0
-  end
+	if gfx.w <= interfaceWidth then
+		return 0
+	end
 
-  return (gfx.w - interfaceWidth) / 2
+	return (gfx.w - interfaceWidth) / 2
 end
 
 function Interface:startGui()
 
-  currentWidth = gfx.w
-  dockerXPadding = getDockerXPadding()
+	currentWidth = gfx.w
+	dockerXPadding = getDockerXPadding()
 
-  self:addMainWindow()
-  self:addDocker()
-  self:addTopFrame()
-  self:addBottomFrame()  
+	self:addMainWindow()
+	self:addDocker()
+	self:addTopFrame()
+	self:addBottomFrame()	
 end
 
 function Interface:addMainWindow()
 
-  gfx.clear = reaper.ColorToNative(36, 36, 36)
-  local dockState = gfx.dock(-1)
-  gfx.init(self.name, self.width, self.height, dockState, self.x, self.y)
+	gfx.clear = reaper.ColorToNative(36, 36, 36)
+	local dockState = gfx.dock(-1)
+	gfx.init(self.name, self.width, self.height, dockState, self.x, self.y)
 end
 
 function Interface:addDocker()
 
-  local docker = Docker:new()
-  table.insert(self.elements, docker)
+	local docker = Docker:new()
+	table.insert(self.elements, docker)
 end
 
 function Interface:addChordButton(buttonText, x, y, width, height, scaleNoteIndex, chordTypeIndex, chordIsInScale)
 
-  local chordButton = ChordButton:new(buttonText, x, y, width, height, scaleNoteIndex, chordTypeIndex, chordIsInScale)
-  table.insert(self.elements, chordButton)
+	local chordButton = ChordButton:new(buttonText, x, y, width, height, scaleNoteIndex, chordTypeIndex, chordIsInScale)
+	table.insert(self.elements, chordButton)
 end
 
 function Interface:addHeader(headerText, x, y, width, height, getTextCallback)
 
-  local header = Header:new(headerText, x, y, width, height, getTextCallback)
-  table.insert(self.elements, header)
+	local header = Header:new(headerText, x, y, width, height, getTextCallback)
+	table.insert(self.elements, header)
 end
 
 function Interface:addFrame(x, y, width, height)
 
-  local frame = Frame:new(x, y, width, height)
-  table.insert(self.elements, frame)
+	local frame = Frame:new(x, y, width, height)
+	table.insert(self.elements, frame)
 end
 
 function Interface:addLabel(x, y, width, height, getTextCallback)
 
-  local label = Label:new(x, y, width, height, getTextCallback)
-  table.insert(self.elements, label)
+	local label = Label:new(x, y, width, height, getTextCallback)
+	table.insert(self.elements, label)
 end
 
 function Interface:addDropdown(x, y, width, height, options, defaultOptionIndex, onSelectionCallback)
 
-  local dropdown = Dropdown:new(x, y, width, height, options, defaultOptionIndex, onSelectionCallback)
-  table.insert(self.elements, dropdown)
+	local dropdown = Dropdown:new(x, y, width, height, options, defaultOptionIndex, onSelectionCallback)
+	table.insert(self.elements, dropdown)
 end
 
 function Interface:addChordInversionValueBox(x, y, width, height)
 
-  local valueBox = ChordInversionValueBox:new(x, y, width, height)
-  table.insert(self.elements, valueBox)
+	local valueBox = ChordInversionValueBox:new(x, y, width, height)
+	table.insert(self.elements, valueBox)
 end
 
 function Interface:addOctaveValueBox(x, y, width, height)
 
-  local valueBox = OctaveValueBox:new(x, y, width, height)
-  table.insert(self.elements, valueBox)
+	local valueBox = OctaveValueBox:new(x, y, width, height)
+	table.insert(self.elements, valueBox)
 end
 
 function Interface:updateElements()
 
-  for _, element in pairs(self.elements) do
-    element:update()
-  end
+	for _, element in pairs(self.elements) do
+		element:update()
+	end
 end
 
 function Interface:update()
 
-  self:updateElements()
-  gfx.update()
+	self:updateElements()
+	gfx.update()
 
-  if not mouseButtonIsNotPressedDown and leftMouseButtonIsNotHeldDown() then
-    mouseButtonIsNotPressedDown = true
-  end
+	if not mouseButtonIsNotPressedDown and leftMouseButtonIsNotHeldDown() then
+		mouseButtonIsNotPressedDown = true
+	end
 
-  if scaleTonicNote ~= getScaleTonicNote() then
-    scaleTonicNote = getScaleTonicNote()
-    updateScaleData()
-    self:restartGui()
-  end
+	if scaleTonicNote ~= getScaleTonicNote() then
+		scaleTonicNote = getScaleTonicNote()
+		updateScaleData()
+		self:restartGui()
+	end
 
-  if scaleType ~= getScaleType() then
-    scaleType = getScaleType()
-    updateScaleData()
-    self:restartGui()
-  end
+	if scaleType ~= getScaleType() then
+		scaleType = getScaleType()
+		updateScaleData()
+		self:restartGui()
+	end
 
-  if currentWidth ~= gfx.w then
-    self:restartGui()
-  end
+	if currentWidth ~= gfx.w then
+		self:restartGui()
+	end
 
-  if guiShouldBeUpdated then
-    
-    self:restartGui()
-    guiShouldBeUpdated = false
-  end
+	if guiShouldBeUpdated then
+		
+		self:restartGui()
+		guiShouldBeUpdated = false
+	end
 end
 
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
@@ -4741,95 +4742,95 @@ local octaveValueBoxWidth = 55
 keySelectionFrameHeight = 25
 function Interface:addTopFrame()
 
-  self:addFrame(xMargin+dockerXPadding, yMargin, self.width - 2 * xMargin, keySelectionFrameHeight)
-  self:addScaleLabel()
-  self:addScaleTonicNoteDropdown()
-  self:addScaleTypeDropdown()
-  self:addScaleNotesTextLabel()
-  self:addOctaveLabel()
-  self:addOctaveSelectorValueBox()
+	self:addFrame(xMargin+dockerXPadding, yMargin, self.width - 2 * xMargin, keySelectionFrameHeight)
+	self:addScaleLabel()
+	self:addScaleTonicNoteDropdown()
+	self:addScaleTypeDropdown()
+	self:addScaleNotesTextLabel()
+	self:addOctaveLabel()
+	self:addOctaveSelectorValueBox()
 end
 
 function Interface:addScaleLabel()
 
-  local labelText = "Scale:"
-  scaleLabelWidth = gfx.measurestr(labelText)
-  local labelXpos = xMargin+xPadding
-  local labelYpos = yMargin+yPadding
-  local labelHeight = 16
-  self:addLabel(labelXpos+dockerXPadding, labelYpos, scaleLabelWidth, labelHeight, function() return labelText end)
+	local labelText = "Scale:"
+	scaleLabelWidth = gfx.measurestr(labelText)
+	local labelXpos = xMargin+xPadding
+	local labelYpos = yMargin+yPadding
+	local labelHeight = 16
+	self:addLabel(labelXpos+dockerXPadding, labelYpos, scaleLabelWidth, labelHeight, function() return labelText end)
 end
 
 function Interface:addScaleTonicNoteDropdown()
 
-  local scaleTonicNoteXpos = xMargin+xPadding+scaleLabelWidth+horizontalMargin
-  local scaleTonicNoteYpos = yMargin+yPadding+1
-  local scaleTonicNoteHeight = 15
+	local scaleTonicNoteXpos = xMargin+xPadding+scaleLabelWidth+horizontalMargin
+	local scaleTonicNoteYpos = yMargin+yPadding+1
+	local scaleTonicNoteHeight = 15
 
-  local onScaleTonicNoteSelection = function(i)
+	local onScaleTonicNoteSelection = function(i)
 
-    setScaleTonicNote(i)
-    setSelectedScaleNote(1)
-    setChordText("")
-    resetSelectedChordTypes()
-    resetChordInversionStates()
-    updateScaleData()
-    updateScaleDegreeHeaders()
-  end
+		setScaleTonicNote(i)
+		setSelectedScaleNote(1)
+		setChordText("")
+		resetSelectedChordTypes()
+		resetChordInversionStates()
+		updateScaleData()
+		updateScaleDegreeHeaders()
+	end
 
-  local scaleTonicNote = getScaleTonicNote()
-  self:addDropdown(scaleTonicNoteXpos+dockerXPadding, scaleTonicNoteYpos, scaleTonicNoteWidth, scaleTonicNoteHeight, notes, scaleTonicNote, onScaleTonicNoteSelection)
+	local scaleTonicNote = getScaleTonicNote()
+	self:addDropdown(scaleTonicNoteXpos+dockerXPadding, scaleTonicNoteYpos, scaleTonicNoteWidth, scaleTonicNoteHeight, notes, scaleTonicNote, onScaleTonicNoteSelection)
 
 end
 
 function Interface:addScaleTypeDropdown()
 
-  local scaleTypeXpos = xMargin+xPadding+scaleLabelWidth+scaleTonicNoteWidth+horizontalMargin*1.5
-  local scaleTypeYpos = yMargin+yPadding+1
-  local scaleTypeHeight = 15
+	local scaleTypeXpos = xMargin+xPadding+scaleLabelWidth+scaleTonicNoteWidth+horizontalMargin*1.5
+	local scaleTypeYpos = yMargin+yPadding+1
+	local scaleTypeHeight = 15
 
-  local onScaleTypeSelection = function(i)
+	local onScaleTypeSelection = function(i)
 
-    setScaleType(i)
-    setSelectedScaleNote(1)
-    setChordText("")
-    resetSelectedChordTypes()
-    resetChordInversionStates()
-    updateScaleData()
-    updateScaleDegreeHeaders()
-  end
-  
-  local scaleName = getScaleType()
-  self:addDropdown(scaleTypeXpos+dockerXPadding, scaleTypeYpos, scaleTypeWidth, scaleTypeHeight, scaleNames, scaleName, onScaleTypeSelection)
+		setScaleType(i)
+		setSelectedScaleNote(1)
+		setChordText("")
+		resetSelectedChordTypes()
+		resetChordInversionStates()
+		updateScaleData()
+		updateScaleDegreeHeaders()
+	end
+	
+	local scaleName = getScaleType()
+	self:addDropdown(scaleTypeXpos+dockerXPadding, scaleTypeYpos, scaleTypeWidth, scaleTypeHeight, scaleNames, scaleName, onScaleTypeSelection)
 end
 
 function Interface:addScaleNotesTextLabel()
 
-  local getScaleNotesTextCallback = function() return getScaleNotesText() end
-  local scaleNotesXpos = xMargin+xPadding+scaleLabelWidth+scaleTonicNoteWidth+scaleTypeWidth+horizontalMargin*2+4
-  local scaleNotesYpos = yMargin+yPadding+1
-  local scaleNotesWidth = 360
-  local scaleNotesHeight = 15
-  self:addLabel(scaleNotesXpos+dockerXPadding, scaleNotesYpos, scaleNotesWidth, scaleNotesHeight, getScaleNotesTextCallback)
+	local getScaleNotesTextCallback = function() return getScaleNotesText() end
+	local scaleNotesXpos = xMargin+xPadding+scaleLabelWidth+scaleTonicNoteWidth+scaleTypeWidth+horizontalMargin*2+4
+	local scaleNotesYpos = yMargin+yPadding+1
+	local scaleNotesWidth = 360
+	local scaleNotesHeight = 15
+	self:addLabel(scaleNotesXpos+dockerXPadding, scaleNotesYpos, scaleNotesWidth, scaleNotesHeight, getScaleNotesTextCallback)
 end
 
 function Interface:addOctaveLabel()
 
-  local labelText = "Octave:"
-  octaveLabelWidth = gfx.measurestr(labelText)  
-  local labelYpos = yMargin+yPadding+1
-  local labelHeight = 15
-  local labelXpos = windowWidth - 80 - octaveValueBoxWidth
-  self:addLabel(labelXpos+dockerXPadding, labelYpos, octaveLabelWidth, labelHeight, function() return labelText end)
+	local labelText = "Octave:"
+	octaveLabelWidth = gfx.measurestr(labelText)	
+	local labelYpos = yMargin+yPadding+1
+	local labelHeight = 15
+	local labelXpos = windowWidth - 80 - octaveValueBoxWidth
+	self:addLabel(labelXpos+dockerXPadding, labelYpos, octaveLabelWidth, labelHeight, function() return labelText end)
 end
 
 function Interface:addOctaveSelectorValueBox()
 
-  local windowWidth = 775
-  local valueBoxXPos = windowWidth - octaveValueBoxWidth - xMargin - xPadding + 3
-  local valueBoxYPos = yMargin + 6
-  local valueBoxHeight = 15
-  self:addOctaveValueBox(valueBoxXPos+dockerXPadding, valueBoxYPos, octaveValueBoxWidth, valueBoxHeight)
+	local windowWidth = 775
+	local valueBoxXPos = windowWidth - octaveValueBoxWidth - xMargin - xPadding + 3
+	local valueBoxYPos = yMargin + 6
+	local valueBoxHeight = 15
+	self:addOctaveValueBox(valueBoxXPos+dockerXPadding, valueBoxYPos, octaveValueBoxWidth, valueBoxHeight)
 end
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
@@ -4845,15 +4846,15 @@ local chordTextWidth = nil
 
 function Interface:addBottomFrame()
 
-  local chordButtonsFrameHeight = self.height - yMargin - 6
-  self:addFrame(xMargin+dockerXPadding, yMargin, self.width - 2 * xMargin, chordButtonsFrameHeight)
+	local chordButtonsFrameHeight = self.height - yMargin - 6
+	self:addFrame(xMargin+dockerXPadding, yMargin, self.width - 2 * xMargin, chordButtonsFrameHeight)
   
   self:addChordTextLabel()
   self:addInversionLabel()
   self:addInversionValueBox()
   
   self:addHeaders()
-  self:addChordButtons()
+	self:addChordButtons()
 end
 
 function Interface:addChordTextLabel()
@@ -4907,24 +4908,24 @@ function Interface:addChordButtons()
 
       for chordTypeIndex, chord in ipairs(scaleChords[scaleNoteIndex]) do
 
-        local text = getScaleNoteName(scaleNoteIndex) .. chord['display']
+      	local text = getScaleNoteName(scaleNoteIndex) .. chord['display']
 
-        local buttonWidth = 104
-        local buttonHeight = 38
-        local innerSpacing = 2
-        
-        local xPos = xMargin + xPadding + buttonWidth * (scaleNoteIndex-1) + innerSpacing * scaleNoteIndex + dockerXPadding
-        local yPos = yMargin + yPadding + headerHeight + buttonHeight * (chordTypeIndex-1) + innerSpacing * (chordTypeIndex-1) - 3
+      	local buttonWidth = 104
+      	local buttonHeight = 38
+				local innerSpacing = 2
+      	
+      	local xPos = xMargin + xPadding + buttonWidth * (scaleNoteIndex-1) + innerSpacing * scaleNoteIndex + dockerXPadding
+      	local yPos = yMargin + yPadding + headerHeight + buttonHeight * (chordTypeIndex-1) + innerSpacing * (chordTypeIndex-1) - 3
   
-        local numberOfChordsInScale = getNumberOfScaleChordsForScaleNoteIndex(scaleNoteIndex)
+  			local numberOfChordsInScale = getNumberOfScaleChordsForScaleNoteIndex(scaleNoteIndex)
 
-         if chordTypeIndex > numberOfChordsInScale then
+       	if chordTypeIndex > numberOfChordsInScale then
           local chordIsInScale = false
-          self:addChordButton(text, xPos, yPos, buttonWidth, buttonHeight, scaleNoteIndex, chordTypeIndex, chordIsInScale)
-        else
+      		self:addChordButton(text, xPos, yPos, buttonWidth, buttonHeight, scaleNoteIndex, chordTypeIndex, chordIsInScale)
+      	else
           local chordIsInScale = true
-          self:addChordButton(text, xPos, yPos, buttonWidth, buttonHeight, scaleNoteIndex, chordTypeIndex, chordIsInScale)
-        end       
+      		self:addChordButton(text, xPos, yPos, buttonWidth, buttonHeight, scaleNoteIndex, chordTypeIndex, chordIsInScale)
+      	end     	
       end
       
       scaleNoteIndex = scaleNoteIndex + 1
@@ -4941,18 +4942,18 @@ local interface = Interface:init("ChordGun")
 interface:startGui()
 
 local function windowHasNotBeenClosed()
-  return inputCharacter ~= -1
+	return inputCharacter ~= -1
 end
 
 local function main()
 
-  handleInput()
+	handleInput()
 
-  if windowHasNotBeenClosed() then
-    reaper.runloop(main)
-  end
-  
-  interface:update()
+	if windowHasNotBeenClosed() then
+		reaper.runloop(main)
+	end
+	
+	interface:update()
 end
 
 main()
