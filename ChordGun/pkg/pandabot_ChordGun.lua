@@ -103,6 +103,8 @@ defaultScaleNoteNames = {'C', 'D', 'E', 'F', 'G', 'A', 'B'}
 defaultScaleDegreeHeaders = {'I', 'ii', 'iii', 'IV', 'V', 'vi', 'viio'}
 
 defaultNotesThatArePlaying = {}
+defaultDockState = 0x0201
+defaultWindowShouldBeDocked = tostring(false)
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
 
 local activeProjectIndex = 0
@@ -120,6 +122,7 @@ local scaleNoteNamesKey = "scaleNoteNames"
 local scaleDegreeHeadersKey = "scaleDegreeHeaders"
 local notesThatArePlayingKey = "notesThatArePlaying"
 local dockStateKey = "dockState"
+local windowShouldBeDockedKey = "shouldBeDocked"
 
 --
 
@@ -360,11 +363,19 @@ end
 --
 
 function getDockState()
-  return getTableValue(dockStateKey, defaultNotesThatArePlaying)
+  return getValue(dockStateKey, defaultDockState)
 end
 
 function setDockState(arg)
-  setTableValue(dockStateKey, arg)
+  setValue(dockStateKey, arg)
+end
+
+function windowShouldBeDocked()
+  return getValue(windowShouldBeDockedKey, defaultWindowShouldBeDocked) == tostring(true)
+end
+
+function setWindowShouldBeDocked(arg)
+  setValue(windowShouldBeDockedKey, tostring(arg))
 end
 
 function mouseIsHoveringOver(element)
@@ -3296,8 +3307,10 @@ end
 
 local function dockWindow()
 
-  local windowAtBottom = 0x0201
-  gfx.dock(windowAtBottom)
+  local dockState = getDockState()
+  gfx.dock(dockState)
+  setWindowShouldBeDocked(true)
+
   guiShouldBeUpdated = true
 end
 
@@ -3316,6 +3329,7 @@ end
 
 local function undockWindow()
 
+  setWindowShouldBeDocked(false)
   gfx.dock(0)
   guiShouldBeUpdated = true
 end
@@ -4538,7 +4552,13 @@ end
 function Interface:addMainWindow()
 
 	gfx.clear = reaper.ColorToNative(36, 36, 36)
-	local dockState = gfx.dock(-1)
+
+	local dockState = 0
+
+  if windowShouldBeDocked() then
+    dockState = getDockState()
+  end
+
 	gfx.init(self.name, self.width, self.height, dockState, self.x, self.y)
 end
 
@@ -4627,6 +4647,10 @@ function Interface:update()
 		self:restartGui()
 		guiShouldBeUpdated = false
 	end
+
+  if windowIsDocked() and (getDockState() ~= gfx.dock(-1)) then
+    setDockState(gfx.dock(-1))
+  end
 end
 
 local workingDirectory = reaper.GetResourcePath() .. "/Scripts/ChordGun/src"
